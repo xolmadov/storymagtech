@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/sh.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/your-kit-code.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <header style="background-color: #353535;" class="shadow-lg py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center px-4">
+            <div class="tech_logo w-24 h-6 bg-center bg-cover" style="background-image: url({% static 'img/tech-logo-dark.png' %});"></div>
+            <nav class="hidden md:flex space-x-6">
+                <a href="#" class="hover:text-gray-400">Home</a>
+                <a href="#" class="hover:text-gray-400">Culture</a>
+                <a href="#" class="hover:text-gray-400">Politics</a>
+                <a href="#" class="hover:text-gray-400">Sports</a>
+                <a href="#" class="hover:text-gray-400">Reviews</a>
+            </nav>
+            <button class="text-white hover:text-gray-400 md:hidden">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="mini max-w-7xl mx-auto p-4 grid md:grid-cols-3 gap-4">
+        {% if first_post %}
+        <a href="{% url 'post_detail' first_post.id %}" class="relative col-span-2 h-96 bg-cover bg-center rounded-lg overflow-hidden" style="background-image: url({{ first_post.image.url }});">
+            <div class="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black to-transparent w-full">
+                <span class="bg-red-600 text-white px-3 py-1 text-xs font-bold uppercase">Featured</span>
+                <h2 class="text-2xl font-bold">{{ first_post.title }}</h2>
+                <p class="text-sm">by {{ first_post.author }} • {{ first_post.date }}</p>
+            </div>
+        </a>
+        {% endif %}
+        {% if second_post %}
+        <a href="{% url 'post_detail' second_post.id %}" class="relative h-96 bg-cover bg-center rounded-lg overflow-hidden" style="background-image: url({{ second_post.image.url }});">
+            <div class="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black to-transparent w-full">
+                <span class="bg-green-600 text-white px-3 py-1 text-xs font-bold uppercase">News</span>
+                <h2 class="text-xl font-bold">{{ second_post.title }}</h2>
+                <p class="text-sm">by {{ second_post.author }} • {{ second_post.date }}</p>
+            </div>
+        </a>
+        {% endif %}
+    </div>
+    
+    <div class="max-w-7xl mx-auto p-4 grid md:grid-cols-3 gap-4">
+        {% for post in posts %}
+        {% if post.id != first_post.id and post.id != second_post.id %}
+        <a href="{% url 'post_detail' post.id %}" class="relative h-48 bg-cover bg-center rounded-lg overflow-hidden" style="background-image: url({{ post.image.url }});">
+            <div class="absolute bottom-0 left-0 p-4 bg-gradient-to-t from-black to-transparent w-full">
+                <span class="bg-purple-600 text-white px-3 py-1 text-xs font-bold uppercase">Boxing</span>
+                <h2 class="text-lg font-bold">{{ post.title }}</h2>
+                <p class="text-sm">by {{ post.author }} • {{ post.date }}</p>
+            </div>
+        </a>
+        {% endif %}
+        {% endfor %}
+    </div>
+
+{% comment %} tugash {% endcomment %}
+<div style="max-width: 100%;background-color: #242121;" class="birnchr">
+    <div style="background-color: #232222;" class="container">
+        <h3 style="margin-bottom: -15px;" class="mini-container">POPULAR</h3>
+        <div class="mini-container">
+        <div class="news-list">
+
+            {% for news in news_list %}
+            <div class="news-item">
+                <img src="{{ news.image.url }}" alt="News Image">
+                <h3><a href="{% url 'news_detail' news.id %}">0{{ forloop.counter }}. {{ news.title }}</a></h3>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+</div>
+    <!-- POPULAR tugash -->
+    <div class="container">
+        <h3 style="margin-bottom: -15px;" class="mini-container">GADGETS</h3>
+        <div class="mini-container">
+            {% for gadget in gadgets %}
+            <div class="card">
+                <img src="{{ gadget.image.url }}" alt="{{ gadget.title }}">
+                <h3><a href="{% url 'gadget_detail' gadget.id %}">{{ gadget.title }}</a></h3>
+                <p>🕒 {{ gadget.created_at|timesince }} ago</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- GADGETS tugash -->
+
+
+    <div class="container">
+        <h3 style="margin-bottom: -15px;" class="mini-container">LATEST</h3>
+        <div class="mini-container2">
+            <div class="noflex">
+                {% for latest in latest_list %}
+                <div class="latest_card">
+                    <img src="{{ latest.image.url }}" alt="{{ latest.title }}">
+                    <div class="news-content">
+                        <div class="category">
+                            <span class="category-badge">{{ latest.category }}</span>
+                        </div>
+                       <h3> <a href="{% url 'lt_detail' latest.id %}">{{ latest.title }}</a></h3>
+                        <div class="author">
+                            <span>{{ latest.created_at|timesince }} ago</span>
+                        </div>
+                        <p>{{ latest.description|truncatechars:100 }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+            
+            </div>
+
+            <div class="containerRE">
+
+                <div class="banner">
+                    <img src="{% static 'img/adso.jpg' %}" alt="">
+                </div>
+
+
+                <div class="social-stats">
+                    <div class="stat facebook">12,740 Likes</div>
+                    <div class="stat pinterest">5,600 Fans</div>
+                    <div class="stat twitter">340 Followers</div>
+                    <div class="stat instagram">1360 Followers</div>
+                </div>
+
+                <div class="subscribe">
+                    <h3>Subscribe to Our New Stories</h3>
+                    <input type="email" placeholder="Email Address...">
+                    <button class="submit-btn">SUBMIT</button>
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+
+    {% comment %} loading tugash {% endcomment %}
+
+
+    <footer style="background-color: #242121;" class="quyuq-past">
+        <div class="katta-quti">
+            <!-- Tech logo and description -->
+            <div class="logo-va-matn">
+                <img src="{% static 'img/t.jpg' %}" alt="">
+                <p>Trends is an amazing magazine Blogger theme that is easy to customize for your needs.</p>
+                <p>📧 hello@beautiful.com</p>
+                <p>📞 +91 60521488</p>
+            </div>
+
+            <!-- Sports Section -->
+            <div class="bo‘lim-katta">
+                <h3>SPORTS</h3>
+                <div class="rasmli-matn">
+                    <img src="{% static 'img/ffo.jpg' %}" alt="Sports">
+                    <p>Russia names 5 disputed islets in East China sea</p>
+                </div>
+                <div class="rasmli-matn">
+                    <img src="{% static 'img/ffo.jpg' %}" alt="Sports">
+                    <p>No escaping new high tech speed cameras</p>
+                </div>
+            </div>
+
+            <!-- Cricket Section -->
+            <div class="bo‘lim-katta">
+                <h3>CRICKET</h3>
+                <div class="rasmli-matn">
+                    <img src="{% static 'img/ffo.jpg' %}" alt="Cricket">
+                    <p>US Promises to give Intel aid to locate the soldiers</p>
+                </div>
+                <div class="rasmli-matn">
+                    <img src="{% static 'img/ffo.jpg' %}" alt="Cricket">
+                    <p>Renewable energy dead as industry waits for Policy</p>
+                </div>
+            </div>
+            <div class="bo‘lim-katta">
+                <h3>LABELS</h3>
+                <ul class="ro‘yxat-toza">
+                    <li>> Boxing (5)</li>
+                    <li>> Fashion (7)</li>
+                    <li>> Health (8)</li>
+                    <li>> Nature (10)</li>
+                </ul>
+            </div>
+            <!-- Labels -->
+
+        </div>
+
+        <div class="past-yozuv">
+            <p>© all rights reserved</p>
+            <p>Made with ❤️ by templateszoo</p>
+        </div>
+    </footer>
+</body>
+
+</html>
